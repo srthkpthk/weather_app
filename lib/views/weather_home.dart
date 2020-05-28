@@ -11,15 +11,21 @@ class WeatherHome extends StatefulWidget {
   _WeatherHomeState createState() => _WeatherHomeState();
 }
 
-class _WeatherHomeState extends State<WeatherHome> {
+class _WeatherHomeState extends State<WeatherHome>   with TickerProviderStateMixin {
   WeatherBloc _weatherBloc;
   AppRepository _repository = AppRepository();
+  AnimationController _fadeController;
+  Animation<double> _fadeAnimation;
 
   @override
   void initState() {
     super.initState();
     _weatherBloc = WeatherBloc(_repository);
     getPermission();
+    _fadeController = AnimationController(
+        duration: const Duration(milliseconds: 1000), vsync: this);
+    _fadeAnimation =
+        CurvedAnimation(parent: _fadeController, curve: Curves.easeIn);
   }
 
   @override
@@ -35,26 +41,31 @@ class _WeatherHomeState extends State<WeatherHome> {
                 colors: [Colors.blue, Colors.blue.shade300],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight)),
-        child: BlocBuilder(
-            bloc: _weatherBloc,
-            // ignore: missing_return
-            builder: (_, WeatherState state) {
-              if (state is WeatherEmpty || state is WeatherLoading) {
-                return Center(child: CircularProgressIndicator());
-              } else if (state is WeatherError) {
-                return Center(
-                  child: Text(
-                    'There was an error',
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
-                  ),
-                );
-              } else if (state is WeatherLoaded) {
-                return WeatherWidget(state.weather,state.forecast);
-              }
-            }),
+        child: FadeTransition(
+opacity: _fadeAnimation,
+          child: BlocBuilder(
+              bloc: _weatherBloc,
+              // ignore: missing_return
+              builder: (_, WeatherState state) {
+                if (state is WeatherEmpty || state is WeatherLoading) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (state is WeatherError) {
+                  return Center(
+                    child: Text(
+                      'There was an error',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  );
+                } else if (state is WeatherLoaded) {
+                  _fadeController.reset();
+                  _fadeController.forward();
+                  return WeatherWidget(state.weather, state.forecast);
+                }
+              }),
+        ),
       ),
     );
   }

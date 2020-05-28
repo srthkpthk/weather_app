@@ -19,7 +19,7 @@ class _WeatherWidgetState extends State<WeatherWidget>
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 1, vsync: this);
     super.initState();
   }
 
@@ -93,9 +93,9 @@ class _WeatherWidgetState extends State<WeatherWidget>
                 ],
               ),
               Text(
-                widget.weather.weatherDescription,
+                widget.weather.weatherDescription.toUpperCase(),
                 style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
               ),
@@ -107,79 +107,47 @@ class _WeatherWidgetState extends State<WeatherWidget>
         ),
         TabBar(
           labelPadding: EdgeInsets.only(left: 40),
-          tabs: [Tab(text: 'Tomorrow'), Tab(text: 'Next 7 Days')],
+          tabs: [Tab(text: 'Next 7 Days')],
           controller: _tabController,
           isScrollable: true,
           indicatorColor: Colors.transparent,
           unselectedLabelColor: Colors.blue.withOpacity(.95),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 40),
-          child: Container(
-            height: 300,
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 40),
-              child: TabBarView(
-                controller: _tabController,
-                children: <Widget>[
-                  Container(
-                    height: 100,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.blue.shade100),
-                    child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: widget.forecast.length,
-                      separatorBuilder: (context, index) => Divider(
-                        height: 100,
-                        color: Colors.white,
-                      ),
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      itemBuilder: (context, index) {
-                        final item = widget.forecast[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: Center(
-                              child: ValueTile(
-                            DateFormat('E, ha').format(
-                                DateTime.fromMillisecondsSinceEpoch(5 * 1000)),
-                            '${item.temperature.celsius.round()}°',
-                            iconData: Icons.cake,
-                          )),
-                        );
-                      },
+        Container(
+          height: 300,
+          width: MediaQuery.of(context).size.width,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 40),
+            child: TabBarView(
+              controller: _tabController,
+              children: <Widget>[
+                Container(
+                  height: 70,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    itemCount: widget.forecast.length,
+                    separatorBuilder: (context, index) => Divider(
+                      height: 100,
+                      color: Colors.white,
                     ),
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    itemBuilder: (context, index) {
+                      final item = widget.forecast[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        child: Center(
+                            child: ValueTile(
+                          DateFormat('E, ha').format(item.date),
+                          '${item.temperature.celsius.round()}°',
+                          imageData:
+                              "http://openweathermap.org/img/wn/${item.weatherIcon}@2x.png",
+                        )),
+                      );
+                    },
                   ),
-//                  Container(
-//                    height: 70,
-//                    child: ListView.separated(
-//                      scrollDirection: Axis.horizontal,
-//                      shrinkWrap: true,
-//                      itemCount: widget.forecast.length,
-//                      separatorBuilder: (context, index) => Divider(
-//                        height: 100,
-//                        color: Colors.white,
-//                      ),
-//                      padding: EdgeInsets.only(left: 10, right: 10),
-//                      itemBuilder: (context, index) {
-//                        final item = widget.forecast[index];
-//                        return Padding(
-//                          padding: const EdgeInsets.only(left: 10, right: 10),
-//                          child: Center(
-//                              child: ValueTile(
-//                            DateFormat('E, ha').format(
-//                                DateTime.fromMillisecondsSinceEpoch(5 * 1000)),
-//                            '${item.temperature.celsius.round()}°',
-//                            iconData: Icons.cake,
-//                          )),
-//                        );
-//                      },
-//                    ),
-//                  )
-                ],
-              ),
+                )
+              ],
             ),
           ),
         )
