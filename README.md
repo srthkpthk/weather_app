@@ -1,16 +1,22 @@
-# weather_app
+# Weather App [![Say Thanks!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/techysrthk%40gmail.com) [![License](https://img.shields.io/badge/license-MIT-orange.svg)](https://github.com/srthkpthk/weather_app/blob/master/LICENSE) ![GitHub stars](https://img.shields.io/github/stars/srthkpthk/weather_app)
 
-A new Flutter project.
+###### Weather App is one of the first apps in created using flutter maybe it is not worth but hold special place for flutter 
 
-## Getting Started
+Shows Current Weather and Forecast for your Current Location.
 
-This project is a starting point for a Flutter application.
+#### Only for Android 
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+-Uses Bloc
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ 
+  
+
+ #### Feel Free to make a PR or Issue
+ 
+ 
+ #### Star the Repo if you find it useful 
+
+ <img src="weather-app-ss.jpg" width="200" height="400">
+
+ ##### Peace Out
